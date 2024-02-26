@@ -14,6 +14,7 @@ import { useAnimation } from '@lilib/hooks'
 import { useWindowSize, useWindowWidth } from '@react-hook/window-size'
 import * as d3int from 'd3-interpolate'
 import { GraphData, LinkObject, NodeObject } from 'force-graph'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import React, {
   ComponentPropsWithoutRef,
@@ -25,10 +26,6 @@ import React, {
 } from 'react'
 //@ts-expect-error
 import jLouvain from 'jlouvain.js'
-import type {
-  ForceGraph2D as TForceGraph2D,
-  ForceGraph3D as TForceGraph3D,
-} from 'react-force-graph'
 import { BiNetworkChart } from 'react-icons/bi'
 import { BsReverseLayoutSidebarInsetReverse } from 'react-icons/bs'
 import ReconnectingWebSocket from 'reconnecting-websocket'
@@ -65,15 +62,8 @@ import { getLinkColor } from '../util/getLinkColor'
 
 const d3promise = import('d3-force-3d')
 
-// react-force-graph fails on import when server-rendered
-// https://github.com/vasturiano/react-force-graph/issues/155
-const ForceGraph2D = (
-  !!global.window ? require('react-force-graph').ForceGraph2D : null
-) as typeof TForceGraph2D
-
-const ForceGraph3D = (
-  !!global.window ? require('react-force-graph').ForceGraph3D : null
-) as typeof TForceGraph3D
+const ForceGraph2D = dynamic(() => import('../components/Graph/ForceGraph2D'), { ssr: false })
+const ForceGraph3D = dynamic(() => import('../components/Graph/ForceGraph3D'), { ssr: false })
 
 export type NodeById = { [nodeId: string]: OrgRoamNode | undefined }
 export type LinksByNodeId = { [nodeId: string]: OrgRoamLink[] | undefined }
