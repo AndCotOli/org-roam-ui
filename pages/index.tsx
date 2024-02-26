@@ -62,8 +62,8 @@ import { getLinkColor } from '../util/getLinkColor'
 
 const d3promise = import('d3-force-3d')
 
-const ForceGraph2D = dynamic(() => import('../components/Graph/ForceGraph2D'), { ssr: false })
-const ForceGraph3D = dynamic(() => import('../components/Graph/ForceGraph3D'), { ssr: false })
+const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false })
+const ForceGraph3D = dynamic(() => import('react-force-graph-3d'), { ssr: false })
 
 export type NodeById = { [nodeId: string]: OrgRoamNode | undefined }
 export type LinksByNodeId = { [nodeId: string]: OrgRoamLink[] | undefined }
